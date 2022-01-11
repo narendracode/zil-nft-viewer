@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import { Provider } from 'react-redux';
+import store from '../redux/store'
 import Head from 'next/head'
 import Link from "next/link";
 import { AppProps } from 'next/app'
@@ -24,9 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <>
+    <Provider store={store}>
       <Head>
-        <title>NFT Viewer | Klaytn</title>
+        <title>NFT Viewer | Zilliqa </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="relative min-h-screen md:flex">
@@ -37,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <a href="#" className="block p-4 text-white font-bold">NFT Viewer</a>
 
           {/* mobile menu button */}
-          <button className="mobile-menu-button p-4 focus:outlined-none focus:bg-gray-700" onClick={toggleSideBar}>
+          <button className="p-4 focus:outlined-none focus:bg-gray-700" onClick={toggleSideBar}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -45,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
 
         {/* sidebar */}
-        <div className={`sidebar bg-blue-800 text-blue-100 w-64 space-y-6 px-2 py-7 absolute inset-y-0 left-0 transform  ${sideBarOpen} md:relative md:translate-x-0 transition duration-200 ease-in-out`} ref={sideBarRef} >
+        <div className={`md:w-50 md:min-w-50 bg-blue-800 text-blue-100 space-y-6 px-2 py-7 absolute inset-y-0 left-0 transform  ${sideBarOpen} md:relative md:translate-x-0 transition duration-200 ease-in-out`} ref={sideBarRef} >
           
           <div className="grid justify-items-end  md:hidden">
             <a href="#" className="mr-2" onClick={closeSideBar}>
@@ -81,8 +83,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </main>
       </div>
-    </>
+    </Provider>
   )
 }
 
-export default MyApp
+export default  MyApp

@@ -1,8 +1,11 @@
 import dayjs, { Dayjs } from "dayjs";
+import { useEffect } from "react";
+import { setWallet, selectWallet } from '../redux/features/wallet'
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 type WalletAccountInfo = {
-  byte20: string;
   bech32: string;
+  base16: string;
   privateKey?: string;
 };
 
@@ -27,11 +30,14 @@ class ZilPayConnectedWallet {
     this.timestamp = timestamp;
     this.addressInfo = {
       bech32: bech32,
-      byte20: base16,
+      base16: base16,
     };
   }
 }
-export default function Home() {
+export default function Home(props) {
+  const dispatch = useAppDispatch();
+  const walletInfo = useAppSelector(selectWallet);
+
   const delay = (ms: number) =>  new Promise(resolve => setTimeout(resolve, ms));
 
   const getConnectedZilPay = async () => {
@@ -85,22 +91,62 @@ export default function Home() {
         if (walletResult?.wallet) {
           const { wallet } = walletResult;
           const { network } = wallet;
+          const { bech32, base16 } = wallet.addressInfo;
           console.log(`wallet : ${JSON.stringify(wallet)}`);
           console.log(`network : ${JSON.stringify(network)}`);
+          dispatch(setWallet({
+            bech32: bech32,
+            base16: base16
+          }))
         }else{
           console.log(`user rejected to connect his wallet.`)
         }
       }else{
         console.log(`could not connect to zilpay`)
       }
-      
     }catch(error){
       console.log(`error while connecting to wallet.`)
     }
   }
+
+  const checkIfWalletIsConnected  = async () => {
+    try{
+
+      let zilPay = (window as any).zilPay;
+      if (!zilPay) {
+        await delay(1500) // wallet injection may sometimes be slow
+        zilPay = (window as any).zilPay;
+      }
+      try {
+        if (typeof zilPay !== "undefined" && zilPay.wallet.isConnect) {
+          const result = zilPay.wallet.defaultAccount;
+          const { bech32, base16 } = zilPay.wallet.defaultAccount;
+          dispatch(setWallet({
+            bech32: bech32,
+            base16: base16
+          }))
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }catch(error){
+      console.log(`error while checking zilpay wallet.`)
+    }
+  }
+
+  useEffect( () => {
+    checkIfWalletIsConnected()
+  }, [])
   
   return (
     <>
+      <div className="">
+        <h1 className="font-mono text-xl code">
+          Welcome to <span className="text-purple-700">NFT Viewer</span>, <span className="text-indigo-700">TailwindCSS</span> and <span className="text-gray-700">TypeScript</span>
+        </h1>
+      </div>
+      {
+      walletInfo.bech32 === '' && walletInfo.base16 === '' && 
       <div className="flex flex-row">
         <div className="basis-1/4 md:basis-1/3">
           <button className="bg-orange-600 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded" onClick={connect}>
@@ -108,13 +154,18 @@ export default function Home() {
           </button>
         </div>
       </div>
-
-      <div className="">
-        <h1 className="font-mono text-xl code">
-          Welcome to <span className="text-purple-700">Nextjs</span>, <span className="text-indigo-700">TailwindCSS</span> and <span className="text-gray-700">TypeScript</span>
-        </h1>
-      </div>
-      
+      }
+           
+      {
+        walletInfo.bech32 !== '' && walletInfo.base16 !== '' &&
+        <div className="">
+          <div className="">
+            <h1 className="font-mono text-xl code">
+              Wallet info { JSON.stringify(walletInfo) }
+            </h1>
+          </div>
+        </div>
+      }
     </>
   )
 }
