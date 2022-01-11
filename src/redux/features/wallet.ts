@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import App from "next/app";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import type { AppState, AppThunk } from '../store'
+import type { AppState } from '../store'
 
 export interface WalletState {
     bech32: string,
