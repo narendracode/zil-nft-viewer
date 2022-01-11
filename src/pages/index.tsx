@@ -142,7 +142,7 @@ export default function Home(props) {
     <>
       <div className="">
         <h1 className="font-mono text-xl code">
-          Welcome to <span className="text-purple-700">NFT Viewer</span>, <span className="text-indigo-700">TailwindCSS</span> and <span className="text-gray-700">TypeScript</span>
+          Welcome to <span className="text-purple-700">NFT Viewer</span>
         </h1>
       </div>
       {
@@ -158,13 +158,17 @@ export default function Home(props) {
            
       {
         walletInfo.bech32 !== '' && walletInfo.base16 !== '' &&
-        <div className="">
-          <div className="">
-            <h1 className="font-mono text-xl code">
-              Wallet info { JSON.stringify(walletInfo) }
-            </h1>
+          <div className="mt-3 flex space-x-2">
+            <span> 
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg> 
+            </span>
+            <span className="font-mono text-xl">
+              Wallet connected 
+            </span> 
+            <span className="font-mono text-xl text-indigo-700"> {walletInfo.base16}</span>
           </div>
-        </div>
       }
     </>
   )
