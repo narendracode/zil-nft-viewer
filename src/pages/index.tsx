@@ -78,15 +78,17 @@ const checkIfWalletIsConnected = async () => {
   const renderConnectedWalletView = () => {
     return (
       <div className="mt-3 flex space-x-2">
-      <span> 
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg> 
-      </span>
-      <span className="font-mono text-xl">
-        Wallet connected 
-      </span> 
-      <span className="font-mono text-xl text-indigo-700"> {walletInfo.base16}</span>
+        <div className="relative">
+          <div className="mt-3">
+            <span className="font-mono text-xl">
+              Wallet connected 
+            </span> 
+            <span className="font-mono text-xl text-indigo-700"> {walletInfo.base16}</span>
+          </div>
+          <div className="absolute top-0 left-0 -mr-1 -mt-1 w-4 h-4 rounded-full bg-green-300 animate-ping"></div>
+          <div className="absolute top-0 left-0 -mr-1 -mt-1 w-4 h-4 rounded-full bg-green-300"></div>
+        </div>
+
     </div>
     )
   }

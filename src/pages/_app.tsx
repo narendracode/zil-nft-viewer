@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </div>
 
         {/* sidebar */}
-        <div className={`md:w-50 md:min-w-50 bg-blue-800 text-blue-100 space-y-6 px-2 py-7 absolute inset-y-0 left-0 transform  ${sideBarOpen} md:relative md:translate-x-0 transition duration-200 ease-in-out`} ref={sideBarRef} >
+        <div className={`z-50 md:w-50 md:min-w-50 bg-blue-800 text-blue-100 space-y-6 px-2 py-7 absolute inset-y-0 left-0 transform  ${sideBarOpen} md:relative md:translate-x-0 transition duration-200 ease-in-out`} ref={sideBarRef} >
           
           <div className="grid justify-items-end  md:hidden">
             <a href="#" className="mr-2" onClick={closeSideBar}>
@@ -73,7 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <a className={`block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white ${router.pathname === "/" ? 'bg-blue-700 text-white' : '' } `}>Home</a>
             </Link>
             <Link href="/nfts">
-              <a className={`block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white ${router.pathname === "/nfts" ? 'bg-blue-700 text-white' : '' } `}>NFTS</a>
+              <a className={`block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white ${router.pathname === "/nfts" ? 'bg-blue-700 text-white' : '' } `}>NFTs</a>
             </Link>
           </nav>
         </div>

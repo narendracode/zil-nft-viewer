@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { delay} from '../utils/wallet'
 import { useAppDispatch } from "../redux/hooks";
 import { setWallet } from '../redux/features/wallet'
+import SkeletonLoader from "../components/SkeletonLoader";
 
 export default function Nfts() {
     const dispatch = useAppDispatch();
     const [walletInfo, setWalletInfo] = useState(null);
-
-
+    const [nfts, setNfts] = useState([])
+    
     const checkIfWalletIsConnected = async () => {
         try {
             let zilPay = (window as any).zilPay;
@@ -51,7 +52,7 @@ export default function Nfts() {
 
  return (
     <div>
-        NFTs
+        <SkeletonLoader/>
     </div>
 );   
 }
