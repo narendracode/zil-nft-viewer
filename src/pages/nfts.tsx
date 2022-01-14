@@ -49,12 +49,18 @@ export default function Nfts() {
         let content;
         console.log(`load NFTs is called. status : ${nftLoadStatus.status}`)
         if(nftLoadStatus.status === 'idle') {
-            content = <div>Do you have your wallet connected?</div>
+            content = <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+            <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+              <p className="leading-normal text-2xl mb-8">
+                Please connect your wallet to view your NFTs.
+              </p>
+            </div>
+          </div>
         }
         else if(nftLoadStatus.status === 'loading') {
             content = <SkeletonLoader/>
         }else if (nftLoadStatus.status == 'succeeded'){
-            if(!userNFTs.nfts.nfts.length || userNFTs.nfts.nfts.length ===0 ){
+            if(!userNFTs.nfts.nfts.length || userNFTs.nfts.nfts.length === 0 ){
                 content = <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
                 <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
                   <h1 className="my-4 text-5xl font-bold leading-tight">
