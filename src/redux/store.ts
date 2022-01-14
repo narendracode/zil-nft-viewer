@@ -1,10 +1,14 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import walletReducer from './features/wallet';
+import nftReducer from './features/nft';
 
 export function makeStore() {
     return configureStore({
-        reducer: { wallet: walletReducer }
+        reducer: {
+            wallet: walletReducer,
+            nft: nftReducer
+        }
     })
 }
 
