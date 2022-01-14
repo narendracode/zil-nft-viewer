@@ -45,6 +45,20 @@ export default function Nfts() {
         checkIfWalletIsConnected()
     }, [])
 
+    const renderNFTCollectiblesMessage = () => {
+        if(userNFTs.nfts && 
+            userNFTs.nfts.nfts && 
+            userNFTs.nfts.nfts.length && 
+            userNFTs.nfts.nfts.length > 0) {
+                return               <div>
+                <h1 className="my-4 text-5xl font-bold leading-tight">
+                    Your NFT collectibles are here...
+                </h1>
+            </div>
+            }else {
+                return "";
+            }
+    }
     const loadNFTs = () => {
         let content;
         console.log(`load NFTs is called. status : ${nftLoadStatus.status}`)
@@ -97,10 +111,15 @@ export default function Nfts() {
     }, [walletInfo])
 
     return (
+        <>
+        {
+            renderNFTCollectiblesMessage()
+        }
         <div className="flex md:flex-row flex-col sm:flex-col flex-wrap">
         {
             loadNFTs()
         }
         </div>
+        </>
     );   
 }
