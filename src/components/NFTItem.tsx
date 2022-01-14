@@ -6,7 +6,7 @@ export default function NFTItem({nft}) {
             {/* <!-- image --> */}
               <img src={nft.metadata.img_url} alt="boy with camera" className="rounded-t-xl w-full object-cover h-56"  />
             
-              <div className="grow flex md:flex-row flex-col justify-between basis-full">
+              <div className="grow flex md:flex-row flex-col justify-between">
                 <div className="basis-1/2 flex flex-col">
                   <div className="md:text-left text-center font-mono text-zinc-700 text-sm">{nft.metadata.title} </div>
                   <div className="md:text-left text-center font-mono text-sm">#{nft.token_id}</div>

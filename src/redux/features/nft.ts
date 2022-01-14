@@ -48,22 +48,58 @@ export const fetchNFTs = createAsyncThunk('nft/fetchNFTs', async (walletAddress:
     console.log(`response from json server : ${JSON.stringify(response.data)}`)
 
     //returning dummy data
-    return {
-        nfts: [{
-            address: "nft address dummy1",
-            owner: "Owner address dummy",
-            token_id: '1234',
-            token_uri: "https://ipfs.io/cid/dummy-1234",
-            top_bid_price: '$ 100',
-            metadata: {
-                title: "Mad Series",
-                description: "some popular NFT description",
-                img_url: "https://images.unsplash.com/photo-1610720657521-c38abf6dbb7d",
-                traits: [
+    // return {
+    //     nfts: []
+    // }
 
-                ]
-            }
-        }]
+    return {
+        nfts: [
+            {
+                address: "nft address dummy1",
+                owner: "Owner address dummy",
+                token_id: '1234',
+                token_uri: "https://ipfs.io/cid/dummy-1234",
+                top_bid_price: '$ 100',
+                metadata: {
+                    title: "Mad Series #1",
+                    description: "some popular NFT description",
+                    img_url: "https://images.unsplash.com/photo-1610720657521-c38abf6dbb7d",
+                    traits: [
+
+                    ]
+                }
+            },
+            {
+                address: "nft address dummy1",
+                owner: "Owner address dummy",
+                token_id: '1234',
+                token_uri: "https://ipfs.io/cid/dummy-1234",
+                top_bid_price: '$ 100',
+                metadata: {
+                    title: "Mad Series #2",
+                    description: "some popular NFT description",
+                    img_url: "https://ipfs.io/ipfs/QmZTuKtEopBaLZAVch4pwijhroeAnkFgCGR3jD59qy2jxJ",
+                    traits: [
+
+                    ]
+                }
+            },
+            {
+                address: "nft address dummy1",
+                owner: "Owner address dummy",
+                token_id: '1234',
+                token_uri: "https://ipfs.io/cid/dummy-1234",
+                top_bid_price: '$ 100',
+                metadata: {
+                    title: "Mad Series #2",
+                    description: "some popular NFT description",
+                    img_url: "https://ipfs.io/ipfs/QmZTuKtEopBaLZAVch4pwijhroeAnkFgCGR3jD59qy2jxJ",
+                    traits: [
+
+                    ]
+                }
+            },
+        ]
     };
 })
 

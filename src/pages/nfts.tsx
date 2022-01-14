@@ -54,14 +54,23 @@ export default function Nfts() {
         else if(nftLoadStatus.status === 'loading') {
             content = <SkeletonLoader/>
         }else if (nftLoadStatus.status == 'succeeded'){
-            console.log('cp1')
             if(!userNFTs.nfts.nfts.length || userNFTs.nfts.nfts.length ===0 ){
-                console.log('cp2')
-                content = <div>Oops looks like you don't own any NFTs.</div>
+                content = <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+                <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+                  <h1 className="my-4 text-5xl font-bold leading-tight">
+                    We could not find any NFTs owned by you.
+                  </h1>
+                  <p className="leading-normal text-2xl mb-8">
+                    Why don't you buy a NFT from Marketplace?
+                  </p>
+                  <p className="leading-normal text-2xl mb-8">
+                    Or you can mint your own NFT.
+                  </p>
+                </div>
+              </div>
             }else{
-                console.log(`cp3 nfts : ${JSON.stringify(userNFTs.nfts.nfts)} `)
-                content = userNFTs.nfts.nfts.map( (nft) => {
-                    return <NFTItem key={nft.address} nft={nft} />
+                return userNFTs.nfts.nfts.map( (nft) => {
+                     return <NFTItem key={nft.address} nft={nft} />
                 })
             }
         }else if (nftLoadStatus.status === 'failed') {
@@ -82,7 +91,7 @@ export default function Nfts() {
     }, [walletInfo])
 
     return (
-        <div>
+        <div className="flex md:flex-row flex-col sm:flex-col flex-wrap">
         {
             loadNFTs()
         }
