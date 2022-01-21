@@ -81,9 +81,8 @@ export const fetchNFTs = createAsyncThunk('nft/fetchNFTs', async (walletAddress:
     // fetch
     console.log(`fetch nfts is called in reducer, wallet : ${walletAddress}`)
     await delay(1000)
-    // const response = await client.get('https://jsonplaceholder.typicode.com/todos/1');
     const response = await client.graphql('http://localhost:5000/graphql', `{
-        getAllNfts{
+        getAllNfts(owner: "${walletAddress.toLowerCase()}"){
           tokenId,
           tokenUri,
           owner,
@@ -93,63 +92,27 @@ export const fetchNFTs = createAsyncThunk('nft/fetchNFTs', async (walletAddress:
     console.log(`response from json server : ${JSON.stringify(response.data.data.getAllNfts)}`)
 
     return { nfts: response.data.data.getAllNfts };
-    //returning dummy data
-    // return {
-    //     nfts: []
-    // }
-
-    return {
-        nfts: [
-            {
-                address: "nft address dummy1",
-                owner: "Owner address dummy",
-                token_id: '1234',
-                token_uri: "https://ipfs.io/cid/dummy-1234",
-                top_bid_price: '$ 100',
-                metadata: {
-                    title: "Mad Series #1",
-                    description: "some popular NFT description",
-                    img_url: "https://images.unsplash.com/photo-1610720657521-c38abf6dbb7d",
-                    traits: [
-
-                    ]
-                }
-            },
-            {
-                address: "nft address dummy1",
-                owner: "Owner address dummy",
-                token_id: '1234',
-                token_uri: "https://ipfs.io/cid/dummy-1234",
-                top_bid_price: '$ 100',
-                metadata: {
-                    title: "Mad Series #2",
-                    description: "some popular NFT description",
-                    img_url: "https://ipfs.io/ipfs/QmZTuKtEopBaLZAVch4pwijhroeAnkFgCGR3jD59qy2jxJ",
-                    traits: [
-
-                    ]
-                }
-            },
-            {
-                address: "nft address dummy1",
-                owner: "Owner address dummy",
-                token_id: '1234',
-                token_uri: "https://ipfs.io/cid/dummy-1234",
-                top_bid_price: '$ 100',
-                metadata: {
-                    title: "Mad Series #2",
-                    description: "some popular NFT description",
-                    img_url: "https://ipfs.io/ipfs/QmZTuKtEopBaLZAVch4pwijhroeAnkFgCGR3jD59qy2jxJ",
-                    traits: [
-
-                    ]
-                }
-            },
-        ]
-    };
 })
 
 export const { clearNFTs } = nftSlice.actions;
+
+export const fetchUserNFTs = async (state: AppState) => {
+    const walletAddress = state.wallet.base16.toLowerCase();
+    console.log(`fetch user nfts is called in reducer, wallet : ${walletAddress}`)
+    await delay(1000)
+
+    const response = await client.graphql('http://localhost:5000/graphql', `{
+        getAllNfts(owner: ${walletAddress}){
+          tokenId,
+          tokenUri,
+          owner,
+          contractAddress
+        }
+      }`)
+    console.log(`response from json server for user NFTs : ${JSON.stringify(response.data.data.getAllNfts)}`)
+
+    return { nfts: response.data.data.getAllNfts };
+}
 export const selectNFTs = (state: AppState) => {
     return {
         nfts: state.nft.response

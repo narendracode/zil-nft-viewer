@@ -3,7 +3,7 @@ import { delay} from '../utils/wallet'
 import { useAppDispatch } from "../redux/hooks";
 import { setWallet } from '../redux/features/wallet';
 import { useAppSelector } from "../redux/hooks";
-import { clearNFTs, selectNFTs, nftStatus, nftError, fetchNFTs  } from "../redux/features/nft";
+import { clearNFTs, selectNFTs, nftStatus, nftError, fetchNFTs, fetchUserNFTs  } from "../redux/features/nft";
 import SkeletonLoader from "../components/SkeletonLoader";
 import NFTItem from "../components/NFTItem";
 export default function Nfts() {
@@ -90,7 +90,7 @@ export default function Nfts() {
               </div>
             }else{
                 return userNFTs.nfts.nfts.map( (nft) => {
-                     return <NFTItem key={nft.address} nft={nft} />
+                     return <NFTItem key={nft.tokenId+nft.contractAddress} nft={nft} />
                 })
             }
         }else if (nftLoadStatus.status === 'failed') {
@@ -103,7 +103,7 @@ export default function Nfts() {
         console.log(`wallet : ${JSON.stringify(walletInfo)}`)
         if(walletInfo && walletInfo.base16 && walletInfo.bech32){
             console.log(`wallet info found, fetch NFTs from this wallet.`);
-            dispatch(fetchNFTs(walletInfo.bech32))
+            dispatch(fetchNFTs(walletInfo.base16))
         }else{
             console.log(`Wallet not connected yet by this user.`)
             return;

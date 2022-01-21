@@ -1,13 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../redux/hooks";
 import {  getConnectedZilPay, connectWalletZilPay, delay} from '../utils/wallet'
 import { useAppDispatch } from "../redux/hooks";
-
+import { client } from "./api/client";
 import { setWallet, selectWallet } from '../redux/features/wallet'
+import NFTItem from "../components/NFTItem";
 
 export default function Home(props) {
   const walletInfo = useAppSelector(selectWallet);
   const dispatch = useAppDispatch();
+  const [nfts,setNfts] = useState([])
+
+  const loadAllNfts = async () => {
+    const response = await client.graphql('http://localhost:5000/graphql', `{
+        getAllNfts{
+          tokenId,
+          tokenUri,
+          owner,
+          contractAddress
+        }
+      }`)
+    console.log(`response from json server : ${JSON.stringify(response.data.data.getAllNfts)}`)
+    setNfts(response.data.data.getAllNfts)
+  }
 
   const connect = async () => {
     try {
@@ -60,6 +75,7 @@ const checkIfWalletIsConnected = async () => {
 }
   useEffect( () => {
     checkIfWalletIsConnected()
+    loadAllNfts();
   }, [])
   
   const renderZilpayConnectView = () => {
@@ -91,7 +107,17 @@ const checkIfWalletIsConnected = async () => {
     </div>
     )
   }
-
+  const loadNFTs = () => {
+    let content;
+        if(nfts.length){
+            content =  nfts.map( (nft) => {
+                 return <NFTItem key={nft.tokenId+nft.contractAddress} nft={nft} />
+            })
+        }else {
+          content = <div>Loading... NFTs</div>;
+        }
+    return content;
+}
   return (
     <>
       <div className='flex flex-col items-center pt-32 min-h-screen'>
@@ -118,6 +144,11 @@ const checkIfWalletIsConnected = async () => {
         walletInfo.bech32 !== '' && walletInfo.base16 !== '' &&
         renderConnectedWalletView()
       }
+      
+        <div className="flex md:flex-row flex-col sm:flex-col flex-wrap">
+        {loadNFTs()}
+        </div>
+      
       </div>
     </>
   )
