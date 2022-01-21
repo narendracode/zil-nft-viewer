@@ -1,17 +1,19 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { AppState } from '../store'
-import { NFTResponse } from "../../types/nft";
+import { NFTResponse, SingleNFTResponse, Token } from "../../types/nft";
 import { client } from '../../pages/api/client';
 import { delay } from "../../utils/wallet";
 
 export interface NFTResponseState {
     response: NFTResponse,
+    singleNFTResponse: SingleNFTResponse
     status: string,
     error: string
 }
 
 const initialState: NFTResponseState = {
     response: null,
+    singleNFTResponse: null,
     status: 'idle',
     error: null,
 }
@@ -37,16 +39,60 @@ export const nftSlice = createSlice({
                 state.status = 'failed'
                 state.error = 'some fake error encountered.'
             })
+            .addCase(fetchNFT.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchNFT.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.singleNFTResponse = action.payload;
+            })
+            .addCase(fetchNFT.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = 'some fake error encountered while fetching single NFT.'
+            })
     }
+})
+
+export const fetchNFT = createAsyncThunk('nft/fetchNFT', async (token: Token) => {
+    console.log(`fetch nft is called in reducer, contract adress : ${token.address} , tokenId : ${token.tokenId}`)
+
+    await delay(1000)
+    const response = await client.get('https://jsonplaceholder.typicode.com/todos/1');
+    console.log(`response from json server : ${JSON.stringify(response.data)}`)
+    return {
+        nft: {
+            contractAddress: "nft address dummy1",
+            owner: "Owner address dummy",
+            tokenId: '1234',
+            tokenUri: "https://ipfs.io/cid/dummy-1234",
+            metadata: {
+                title: "Mad Series #1",
+                description: "some popular NFT description",
+                img_url: "https://images.unsplash.com/photo-1610720657521-c38abf6dbb7d",
+                traits: [
+
+                ]
+            }
+        }
+    };
 })
 
 export const fetchNFTs = createAsyncThunk('nft/fetchNFTs', async (walletAddress: string) => {
     // fetch
     console.log(`fetch nfts is called in reducer, wallet : ${walletAddress}`)
     await delay(1000)
-    const response = await client.get('https://jsonplaceholder.typicode.com/todos/1');
-    console.log(`response from json server : ${JSON.stringify(response.data)}`)
+    // const response = await client.get('https://jsonplaceholder.typicode.com/todos/1');
+    const response = await client.graphql('http://localhost:5000/graphql', `{
+        getAllNfts{
+          tokenId,
+          tokenUri,
+          owner,
+          contractAddress
+        }
+      }`)
+    console.log(`response from json server : ${JSON.stringify(response.data.data.getAllNfts)}`)
 
+    return { nfts: response.data.data.getAllNfts };
     //returning dummy data
     // return {
     //     nfts: []

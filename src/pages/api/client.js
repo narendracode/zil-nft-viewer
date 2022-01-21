@@ -1,9 +1,8 @@
 // A tiny wrapper around fetch(), borrowed from
 // https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
-
+import axios from "axios"
 export async function client(endpoint, { body, ...customConfig } = {}) {
     const headers = { 'Content-Type': 'application/json' }
-
     const config = {
         method: body ? 'POST' : 'GET',
         ...customConfig,
@@ -42,4 +41,14 @@ client.get = function (endpoint, customConfig = {}) {
 
 client.post = function (endpoint, body, customConfig = {}) {
     return client(endpoint, { ...customConfig, body })
+}
+
+client.graphql = async (endpoint, query) => {
+    return await axios.post(endpoint, {
+        query
+    })
+}
+
+client.axiosGet = async (endpoint) => {
+    return await axios.get(endpoint)
 }
