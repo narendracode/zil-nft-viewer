@@ -73,7 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <a className={`block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white ${router.pathname === "/" ? 'bg-blue-700 text-white' : '' } `}>Home</a>
             </Link>
             <Link href="/nfts">
-              <a className={`block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white ${router.pathname === "/nfts" ? 'bg-blue-700 text-white' : '' } `}>NFTs</a>
+              <a className={`block py-2.5 px-4 rounded transition duration-200 hover:bg-blue-500 hover:text-white ${router.pathname === "/nfts" ? 'bg-blue-700 text-white' : '' } `}>My NFTs</a>
             </Link>
           </nav>
         </div>
