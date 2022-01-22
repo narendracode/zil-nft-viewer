@@ -6,8 +6,10 @@ export default function NFTItem({nft}) {
   const [metaData, setMetaData] = useState(null);
 
   const loadMetadata = async () => {
-    const response = await client.axiosGet(nft.tokenUri);
-    setMetaData(response.data)
+    if(nft && nft.tokenUri){
+      const response = await client.axiosGet(nft.tokenUri);
+      setMetaData(response.data)
+    }
   }
 
   useEffect( () => {
