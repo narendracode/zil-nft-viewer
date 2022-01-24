@@ -40,6 +40,19 @@ export default function NftWithContractAddressAndTokenId() {
         loadMetadata(nft);
     },[address,tokenId,nft])
 
+    const propertiesView = () => {
+        return metaData.attributes.map( (attribute) => {
+            return <div className="grid grid-cols-2" key={attribute.trait_type+attribute.value}> 
+                <div>
+                    {attribute.trait_type}
+                </div>
+                <div>
+                    {attribute.value}
+                </div>
+             </div>
+       }) 
+    }
+
     return (metaData &&
         <>
             <div className='flex flex-row'>
@@ -49,14 +62,33 @@ export default function NftWithContractAddressAndTokenId() {
                         {/* <!-- image --> */}
                         <img src={metaData.image} alt="boy with camera" className="rounded-t-xl w-full object-cover h-96"  />
                     </div>
-                    <div  className="m-5 p-2 w-96 bg-white rounded shadow-2xl flex flex-col space-y-5 justify-between border-1 border-slate-800">
-                        {metaData.description}
+                    
+                    <div  className="m-5 p-2 w-96 bg-white rounded shadow-2xl flex flex-col space-y-5 justify-between border-1 border-slate-700">
+                        <div>
+                            <span className="font-extrabold">Description</span>
+                        </div>
+                        <div>
+                            {metaData.description}
+                        </div>
+                    </div>
+                    <div  className="m-5 p-2 w-96 bg-white rounded shadow-2xl flex flex-col space-y-5 justify-between border-1 border-slate-700">
+                        <div>
+                            <span className="font-extrabold">Properties</span>
+                        </div>
+                        {propertiesView()}
                     </div>
                 </div>
 
                 {/* <!-- Right colum --> */}
                 <div className="grow">
-                    <span className="text-5xl font-bold">{metaData.name} </span>
+                    <div>
+                        <span className="text-5xl font-bold">{metaData.name} </span>
+                    </div>
+                    <div className="mt-5 font-medium text-cyan-700">
+                        <a href={metaData.external_url}>
+                            click here to view on external URL
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -64,13 +96,6 @@ export default function NftWithContractAddressAndTokenId() {
                // 
                <div> { JSON.stringify(metaData) }</div>
             }
-            {/* <div>
-                Address of contract : { address }        
-            </div>
-
-            <div>
-                TokenId : { tokenId }        
-            </div> */}
         </>
     );   
 }
